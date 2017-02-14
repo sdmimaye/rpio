@@ -21,9 +21,7 @@ configurations {
 }
 
 ext {
-    windows = org.apache.commons.lang.SystemUtils.IS_OS_WINDOWS
-    osNameLowercase = windows ? 'windows' : 'linux'
-
+    osNameLowercase = 'linux'
     jarsInExe = files([project].collect { p -> p.jar.archivePath })
 }
 
@@ -46,7 +44,7 @@ task exeJar(dependsOn: [buildExeJarManifest, classes, ':common:classes'], type: 
 
 ext {
     distPackageDirectory = "${buildDir}/dist-packages"
-    distPackageType = windows ? Zip : Tar
+    distPackageType = Tar
 
     buildResourcesDir = 'build-resources'
     exeJarDistDir = "${buildDir}/dist-exe-jar"

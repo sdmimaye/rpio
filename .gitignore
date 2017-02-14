@@ -14,3 +14,6 @@ hs_err_pid*
 /.idea
 /server/run
 /common/build/tmp/jar/MANIFEST.MF
+/out
+/common/build
+/server/build

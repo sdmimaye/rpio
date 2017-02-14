@@ -1,10 +1,9 @@
 package com.github.sdmimaye.rpio.server.database.models.base;
 
-import com.sun.istack.internal.NotNull;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @MappedSuperclass
