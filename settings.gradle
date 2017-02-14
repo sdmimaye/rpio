@@ -1,0 +1,2 @@
+include 'server', 'common'
+rootProject.name = 'rpio'

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="rpio">
+    <target name="copy_resources" description="Copies resources to local working directory">
+        <copy todir="run">
+            <fileset dir="resources/" />
+        </copy>
+    </target>
+</project>

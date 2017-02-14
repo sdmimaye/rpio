@@ -1,0 +1,3 @@
+This application uses code based on the FilteringTable Vaadin addon by Teppo Kurki:
+https://vaadin.com/directory#addon/filteringtable
+published under the Apache 2.0 License (see apache-2.0.txt)

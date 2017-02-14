@@ -1,0 +1,95 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+apply from: 'dependencies.gradle'
+compileJava.options.encoding = 'UTF-8'
+
+ext.fullVersionString = file("../version.txt").text
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.11'
+}
+
+idea {
+	module {
+		downloadSources = true
+	}
+}
+
+configurations {
+	distPackages
+}
+
+ext {
+    windows = org.apache.commons.lang.SystemUtils.IS_OS_WINDOWS
+    osNameLowercase = windows ? 'windows' : 'linux'
+
+    jarsInExe = files([project].collect { p -> p.jar.archivePath })
+}
+
+task buildExeJarManifest() << {
+    def classpathForJar = configurations.runtime.minus(jarsInExe).collect { "libs/${it.name}" }.join(' ')
+    def manifest = exeJar.manifest
+    manifest.attributes("Main-Class": "com.github.sdmimaye.server.Main")
+    manifest.attributes("Specification-Version": "${fullVersionString}")
+    manifest.attributes("Implementation-Version": "${fullVersionString}")
+    manifest.attributes("Class-Path": "${classpathForJar}")
+    manifest.attributes("Built-Date": new java.util.Date().toString())
+}
+
+task exeJar(dependsOn: [buildExeJarManifest, classes, ':common:classes'], type: Jar) {
+    from sourceSets.main.output
+	from project(":common").sourceSets.main.output
+    classifier = 'exe'
+    version = null
+}
+
+ext {
+    distPackageDirectory = "${buildDir}/dist-packages"
+    distPackageType = windows ? Zip : Tar
+
+    buildResourcesDir = 'build-resources'
+    exeJarDistDir = "${buildDir}/dist-exe-jar"
+    exeJarDistfilesDirectory = "${buildResourcesDir}/distfiles/exe-jar/${osNameLowercase}"
+    allOsDistfilesDirectory = "${buildResourcesDir}/distfiles/all-os"
+
+    commonBuildResourcesDir = '../common/build-resources'
+    commonExeJarDistfilesDirectory = "${commonBuildResourcesDir}/distfiles/exe-jar/${osNameLowercase}"
+    commonAllOsDistfilesDirectory = "${commonBuildResourcesDir}/distfiles/all-os"
+}
+
+[['taskName': "dist", 'arch': "64"]].each { config ->
+    def archDistDir = exeJarDistDir + '/' + config['arch']
+    def archLibsDir = "${archDistDir}/libs"
+
+    tasks.create(name: 'prepare' + config['taskName'], dependsOn: exeJar) << {
+        delete archDistDir
+
+        copy {
+            from exeJar.archivePath
+            from exeJarDistfilesDirectory
+            from allOsDistfilesDirectory
+            from commonExeJarDistfilesDirectory
+            from commonAllOsDistfilesDirectory
+            into archDistDir
+        }
+
+        copy {
+            from configurations.runtime
+            exclude { f -> jarsInExe.contains(f.file) }
+            into archLibsDir
+        }
+    }
+
+    tasks.create(name: config['taskName'], dependsOn: 'prepare' + config['taskName'], type: distPackageType) {
+        from archDistDir
+        baseName = "rpio-java-" + config['arch'] + "bit-" + fullVersionString
+        destinationDir = file(distPackageDirectory)
+    }
+}
+
+artifacts {
+    distPackages dist
+}
+
+tasks.withType(Tar).each { it.compression = Compression.GZIP }

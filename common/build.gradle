@@ -1,0 +1,7 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+dependencies {
+    compile 'net.jcip:jcip-annotations:1.0'
+}
+apply from: "dependencies.gradle"

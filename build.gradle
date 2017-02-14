@@ -1,0 +1,38 @@
+apply plugin: 'idea'
+
+ext.fullVersionString = file("version.txt").text
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.8'
+}
+
+buildscript {
+    repositories {
+	mavenCentral()
+    }
+    dependencies {
+        classpath "commons-lang:commons-lang:2.6"
+    }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'idea'
+  
+  sourceCompatibility = '1.8'
+
+  ext.guiceVersion = '4.0'
+
+  repositories {
+    mavenCentral()
+  }
+  test {
+    useTestNG()
+  }
+  
+  idea {
+  	module {
+  		downloadSources = true
+  	}
+  }
+}
