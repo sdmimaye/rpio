@@ -13,6 +13,7 @@ public class WebserviceModule implements Module {
         binder.bind(LogFileResource.class);
         binder.bind(NotificationResource.class);
         binder.bind(RoleResource.class);
+        binder.bind(PinResource.class);
         binder.bind(ServerStatusResource.class);
         binder.bind(SessionResource.class);
         binder.bind(UserResource.class);

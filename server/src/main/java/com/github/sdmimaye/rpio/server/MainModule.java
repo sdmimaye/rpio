@@ -3,6 +3,7 @@ package com.github.sdmimaye.rpio.server;
 import com.github.sdmimaye.rpio.common.config.ConfigModule;
 import com.github.sdmimaye.rpio.common.security.keystore.CertificateInfoProvider;
 import com.github.sdmimaye.rpio.server.database.DatabaseModule;
+import com.github.sdmimaye.rpio.server.services.gpio.GpioModule;
 import com.github.sdmimaye.rpio.server.services.ServiceModule;
 import com.google.inject.AbstractModule;
 
@@ -23,5 +24,6 @@ public class MainModule extends AbstractModule {
         install(new DatabaseModule());
         install(new ServiceModule());
         install(new ConfigModule());
+        install(new GpioModule());
     }
 }

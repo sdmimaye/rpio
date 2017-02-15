@@ -3,6 +3,7 @@ package com.github.sdmimaye.rpio.server.services;
 import com.github.sdmimaye.rpio.common.services.RpioService;
 import com.github.sdmimaye.rpio.common.services.RpioServiceList;
 import com.github.sdmimaye.rpio.server.services.gcm.GcmService;
+import com.github.sdmimaye.rpio.server.services.gpio.GpioService;
 import com.github.sdmimaye.rpio.server.services.notifications.NotificationService;
 
 import java.util.Arrays;
@@ -13,7 +14,8 @@ public class ServerServiceList implements RpioServiceList {
     public List<Class<? extends RpioService>> getAllServiceTypes() {
         return Arrays.asList(
                 NotificationService.class,
-                GcmService.class
+                GcmService.class,
+                GpioService.class
         );
     }
 }
