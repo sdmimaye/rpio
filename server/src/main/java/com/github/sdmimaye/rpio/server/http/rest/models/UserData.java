@@ -12,9 +12,7 @@ public class UserData {
     private Long id;
     private String loginName;
     private boolean loggedIn;
-    private boolean registrationComplete;
     private boolean isDatabaseInitialized;
-    private String customerId;
     private String serverVersion;
     private List<JsonPrivilege> privileges = new ArrayList<>();
 
@@ -91,21 +89,5 @@ public class UserData {
 
     public void setDatabaseInitialized(boolean isDatabaseInitialized) {
         this.isDatabaseInitialized = isDatabaseInitialized;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public boolean isRegistrationComplete() {
-        return registrationComplete;
-    }
-
-    public void setRegistrationComplete(boolean registrationComplete) {
-        this.registrationComplete = registrationComplete;
     }
 }

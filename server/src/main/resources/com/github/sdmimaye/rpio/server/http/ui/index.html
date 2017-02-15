@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html ng-app="rpio">
 <head>
+    <base href="/">
     <meta charset="utf-8"/>
     <title>RPIO</title>
     <link rel="stylesheet" href="css.includes.css"/>
     <link rel="icon" href="assets/logo.png">
 </head>
-<body>
+<body data-ng-cloak>
 
+<md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Home" href="/">
+            <md-icon md-svg-src="assets/logo.svg"></md-icon>
+        </md-button>
+        <div flex></div>
+        <login-state></login-state>
+    </div>
+</md-toolbar>
+
+<md-content>
+    <div data-ng-view></div>
+</md-content>
 <script src="javascript.includes.js"></script>
 </body>
 </html>

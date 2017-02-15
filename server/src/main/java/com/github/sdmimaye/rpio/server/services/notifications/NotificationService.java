@@ -31,7 +31,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Singleton
-public class NotificationService implements RpioService {//TODO: Refactoring
+public class NotificationService implements RpioService {
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     private final Queue<NotificationBroadcastEvent> broadcasts = new ConcurrentLinkedDeque<>();
     private final Queue<NotificationDirectEvent> direct = new ConcurrentLinkedDeque<>();
