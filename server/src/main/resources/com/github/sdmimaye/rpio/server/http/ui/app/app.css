@@ -2,3 +2,31 @@
     max-width:  90%;
     width: 500px
 }
+
+.toast{
+    width: 100%;
+}
+
+.toast-info{
+
+}
+
+.toast-error{
+
+}
+
+.toast-info .md-toast-content{
+    color: rgb(255, 255, 255) !important;
+    background: rgb(60, 60, 60) !important;
+}
+
+.toast-error .md-toast-content{
+    color: rgb(255, 255, 255) !important;
+    background: rgb(193, 30, 23) !important;
+}
+
+.abs-bottom-right{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}

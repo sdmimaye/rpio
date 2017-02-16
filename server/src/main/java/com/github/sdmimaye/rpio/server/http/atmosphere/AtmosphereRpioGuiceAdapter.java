@@ -1,14 +1,14 @@
-package com.github.sdmimaye.rpio.server.http;
+package com.github.sdmimaye.rpio.server.http.atmosphere;
 
 import com.google.inject.Injector;
 
 import javax.servlet.*;
 import java.io.IOException;
 
-class AtmosphereGuiceAdapter implements Filter {
+public class AtmosphereRpioGuiceAdapter implements Filter {
     private final Injector injector;
 
-    AtmosphereGuiceAdapter(Injector injector) {
+    public AtmosphereRpioGuiceAdapter(Injector injector) {
         this.injector = injector;
     }
 

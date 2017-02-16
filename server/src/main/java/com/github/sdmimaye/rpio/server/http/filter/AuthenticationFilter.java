@@ -2,7 +2,6 @@ package com.github.sdmimaye.rpio.server.http.filter;
 
 import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
 import com.github.sdmimaye.rpio.server.database.models.system.User;
-import com.github.sdmimaye.rpio.server.http.rest.annotations.StartupConfig;
 import com.github.sdmimaye.rpio.server.http.rest.util.UserSessionUtil;
 import com.github.sdmimaye.rpio.server.security.rights.UserRightValidator;
 import com.github.sdmimaye.rpio.server.util.activeuser.ActiveUserInfoManager;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -56,12 +54,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         Method method = methodInvoker.getMethod();
         if (method.isAnnotationPresent(PermitAll.class))
             return;
-
-        boolean isStartupConfigRequest = method.isAnnotationPresent(StartupConfig.class);
-        if (!hibernateUtil.isDatabaseInitialized() && !isStartupConfigRequest) {
-            requestContext.abortWith(Response.status(599).build());
-            return;
-        }
 
         User user = getUser();
         if (user == null) {

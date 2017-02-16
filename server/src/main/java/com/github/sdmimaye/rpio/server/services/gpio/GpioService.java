@@ -11,6 +11,7 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListene
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.Gpio;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
+import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.io.IOUtils;
@@ -48,6 +49,15 @@ public class GpioService implements RpioService {
                     .filter(g -> g.getPinMode() != PinMode.INPUT)
                     .map(g -> (GpioInput) g)
                     .forEach(g -> broadcast(listener, g.getNumber(), g.getState()));
+        }
+    }
+
+    public void write(int number, GpioPinState state) {
+        synchronized (mutex) {
+            gpios.stream()
+                    .filter(g -> g.getPinMode() != PinMode.OUTPUT && g.getNumber() == number)
+                    .map(g -> (GpioOutput) g)
+                    .forEach(p -> p.setState(state));
         }
     }
 

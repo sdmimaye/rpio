@@ -2,6 +2,8 @@ package com.github.sdmimaye.rpio.server.http;
 
 import com.github.sdmimaye.rpio.common.config.core.Configuration;
 import com.github.sdmimaye.rpio.server.config.HttpConfig;
+import com.github.sdmimaye.rpio.server.http.atmosphere.AtmosphereRpioServlet;
+import com.github.sdmimaye.rpio.server.http.atmosphere.AtmosphereRpioGuiceAdapter;
 import com.github.sdmimaye.rpio.server.http.filter.atmosphere.AtmosphereAuthenticationFilter;
 import com.github.sdmimaye.rpio.server.http.filter.atmosphere.AtmosphereHibernateFilter;
 import com.github.sdmimaye.rpio.server.http.rest.modules.FilterModule;
@@ -41,7 +43,7 @@ public class HttpServer extends HttpServiceBase implements Runnable {
         this.configuration = configuration;
         this.dispatcher = dispatcher;
         this.resourceServlet = resourceServlet;
-        this.atmosphereServlet = new AthmosphereMykiServlet();
+        this.atmosphereServlet = new AtmosphereRpioServlet();
         this.hibernateFilter = hibernateFilter;
         this.injector = injector;
         this.activeUserInfoFilter = activeUserInfoFilter;
@@ -89,7 +91,7 @@ public class HttpServer extends HttpServiceBase implements Runnable {
         context.addFilter(ThreadNameFilter.class, "/*", null);
         context.addFilter(TraceRequestFilter.class, "/*", null);
         context.addFilter(CacheHeaderFilter.class, "/*", null);
-        context.addFilter(new FilterHolder(new AtmosphereGuiceAdapter(injector)), "/*", null);
+        context.addFilter(new FilterHolder(new AtmosphereRpioGuiceAdapter(injector)), "/*", null);
 
         FilterHolder filterHolder = new FilterHolder(hibernateFilter);
         filterHolder.setName("HibernateFilter");

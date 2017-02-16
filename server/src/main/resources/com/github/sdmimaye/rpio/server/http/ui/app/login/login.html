@@ -2,21 +2,21 @@
     <div class="login-box md-whiteframe-z1" layout="column">
         <md-toolbar>
             <h2 class="md-toolbar-tools">
-                <span>Login</span>
+                <span>{{loc.login.title}}</span>
             </h2>
         </md-toolbar>
         <form ng-submit="view.submit()">
             <md-content class="md-padding" layout="column">
                 <md-input-container>
-                    <label>Username</label>
+                    <label>{{loc.login.name}}</label>
                     <input type="text" ng-model="view.name"/>
                 </md-input-container>
                 <md-input-container>
-                    <label>Password</label>
+                    <label>{{loc.login.password}}</label>
                     <input type="password" ng-model="view.password"/>
                 </md-input-container>
                 <div layout="row" layout-align="center center">
-                    <md-button type="submit" style="width: 100%" class="md-raised md-primary">Login</md-button>
+                    <md-button type="submit" style="width: 100%" class="md-raised md-primary">{{loc.login.submit}}</md-button>
                 </div>
             </md-content>
         </form>

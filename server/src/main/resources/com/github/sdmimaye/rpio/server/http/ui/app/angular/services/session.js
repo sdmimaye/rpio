@@ -1,7 +1,12 @@
-angular.module('rpio').service('session', function($http){
+angular.module('rpio').service('session', function($http, message, lang){
     var service = {
         session: null,
         callbacks: [],
+        isValidSession: function(){
+            if(!service.session) return false;
+
+            return service.session.loggedIn;
+        },
         register: function(callback){
             service.callbacks.push(callback);
             service.callbacks.forEach(function(cb){
@@ -17,12 +22,22 @@ angular.module('rpio').service('session', function($http){
             return $http.post('api/session', {loginName: username, password: password}).then(function(res){
                 service.session = res.data;
                 service.broadcast('login');
+
+                var translated = service.isValidSession() ? lang.translate('login.messages.success') : lang.translate('login.messages.error');
+                var func = service.isValidSession() ? message.info : message.error;
+
+                func(translated);
+            }, function(){
+                message.error(lang.translate('login.messages.error'));
             });
         },
         logout: function(){
             return $http.delete('api/session').then(function(){
                 service.session = null;
                 service.broadcast('logout');
+                message.info(lang.translate('logout.messages.success'));
+            }, function () {
+                message.error(lang.translate('logout.messages.error'));
             });
         },
         validate: function(){

@@ -36,6 +36,7 @@ angular.module('rpio', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngCookies', 'angu
 
         $httpProvider.interceptors.push(interceptor);
     }])
-    .run(['session', function(session){
+    .run(['session', 'lang', function(session, lang){
         session.validate();
+        lang.initialize();
     }]);

@@ -12,7 +12,6 @@ import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
 import com.github.sdmimaye.rpio.server.database.models.enums.DbType;
 import com.github.sdmimaye.rpio.server.database.models.system.User;
 import com.github.sdmimaye.rpio.server.database.models.validation.ValidationError;
-import com.github.sdmimaye.rpio.server.http.rest.annotations.StartupConfig;
 import com.github.sdmimaye.rpio.server.http.rest.models.json.config.JsonBasicServerConfig;
 import com.github.sdmimaye.rpio.server.http.rest.models.json.config.JsonDatabaseConfig;
 import com.github.sdmimaye.rpio.server.http.rest.util.UserSessionUtil;
@@ -24,8 +23,6 @@ import com.github.sdmimaye.rpio.server.util.Validator;
 import com.github.sdmimaye.rpio.server.util.activeuser.ActiveUserInfoManager;
 import com.google.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -41,7 +38,6 @@ import java.util.stream.Collectors;
 
 @Path("/config")
 public class ConfigResource {
-    private static final Logger logger = LoggerFactory.getLogger(ConfigResource.class);
     private final Configuration configuration;
     private final HibernateUtil hibernateUtil;
     private final DefaultEntryGenerator defaultEntryGenerator;
@@ -68,7 +64,6 @@ public class ConfigResource {
     @Path("/database")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
-    @StartupConfig
     public JsonDatabaseConfig handleGetDatabaseConfig() {
         if (!hibernateUtil.isDatabaseInitialized())//first-time setup
             return new JsonDatabaseConfig(configuration);
@@ -111,7 +106,6 @@ public class ConfigResource {
     @PUT
     @Path("/database")
     @Consumes(MediaType.APPLICATION_JSON)
-    @StartupConfig
     @PermitAll
     public Response handleUpdateDatabase(JsonDatabaseConfig config) {
         if (!hibernateUtil.isDatabaseInitialized())//first-time setup
