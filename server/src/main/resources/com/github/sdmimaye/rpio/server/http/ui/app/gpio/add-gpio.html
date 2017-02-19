@@ -1,0 +1,14 @@
+<div class="md-padding">
+    <form data-ng-submit="view.submit()" class="md-inline-form">
+        <section class="form-border">
+            <md-toolbar>
+                <div class="md-toolbar-tools">{{loc.pin.add.title}}</div>
+            </md-toolbar>
+            <div data-ng-include="'app/gpio/gpio-form.html'"></div>
+            <md-button type="submit" aria-label="Add-Pin" class="md-fab md-primary abs-bottom-right">
+                <md-icon md-font-icon="material-icons">add</md-icon>
+                <md-tooltip md-direction="left">{{loc.pin.add.title}}</md-tooltip>
+            </md-button>
+        </section>
+    </form>
+</div>

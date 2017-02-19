@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/users")
+@Path("/user")
 public class UserResource {
     public static final String ERROR_HEADER = "X-Manager-Error-Key";
 

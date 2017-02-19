@@ -1,6 +1,6 @@
 angular.module('rpio').component('loginState', {
     template:   '<div>' +
-                    '<md-button ng-hide="$ctrl.model.session.loggedIn" class="md-icon-button" aria-label="Login" href="login">' +
+                    '<md-button ng-hide="$ctrl.model.session.loggedIn" class="md-icon-button" aria-label="Login" href="/#!/login">' +
                         '<md-tooltip md-direction="left">{{$ctrl.loc.login.title}}</md-tooltip>' +
                         '<md-icon md-font-icon="material-icons">account_circle</md-icon>' +
                     '</md-button>' +

@@ -2,10 +2,10 @@ package com.github.sdmimaye.rpio.server.services.gpio;
 
 import com.github.sdmimaye.rpio.common.services.RpioService;
 import com.github.sdmimaye.rpio.common.utils.threads.ThreadUtils;
-import com.github.sdmimaye.rpio.server.database.dao.gpio.PinDao;
+import com.github.sdmimaye.rpio.server.database.dao.gpio.GpioPinDao;
 import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
-import com.github.sdmimaye.rpio.server.database.models.gpio.Pin;
+import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinState;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
@@ -32,11 +32,11 @@ public class GpioService implements RpioService {
     private final List<GpioPinStateListener> listeners = new ArrayList<>();
     private final List<Gpio> gpios = new ArrayList<>();
 
-    private final PinDao dao;
+    private final GpioPinDao dao;
     private final HibernateUtil util;
 
     @Inject
-    public GpioService(HardwareController controller, PinDao dao, HibernateUtil util) {
+    public GpioService(HardwareController controller, GpioPinDao dao, HibernateUtil util) {
         this.controller = controller;
         this.dao = dao;
         this.util = util;
@@ -98,7 +98,7 @@ public class GpioService implements RpioService {
         logger.trace("Synchronizing GPIO-Pins...");
         util.doWork(() -> {
             synchronized (mutex) {
-                List<Pin> pins = dao.getAll();
+                List<GpioPin> pins = dao.getAll();
 
                 logger.trace("Removing deleted Pins...");
                 boolean removed = doRemoveMissingPins(pins);
@@ -111,7 +111,7 @@ public class GpioService implements RpioService {
         });
     }
 
-    private boolean doRemoveMissingPins(List<Pin> pins) {
+    private boolean doRemoveMissingPins(List<GpioPin> pins) {
         boolean anyModification = false;
         Iterator<Gpio> iterator = gpios.iterator();
         while (iterator.hasNext()) {
@@ -127,9 +127,9 @@ public class GpioService implements RpioService {
         return anyModification;
     }
 
-    private boolean doAddMissingPins(List<Pin> pins) {
+    private boolean doAddMissingPins(List<GpioPin> pins) {
         boolean anyModification = false;
-        for (Pin pin : pins) {
+        for (GpioPin pin : pins) {
             if(gpios.stream().anyMatch(g -> g.getNumber() == pin.getNumber()))
                 continue;
 

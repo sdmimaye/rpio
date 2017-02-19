@@ -10,11 +10,13 @@ import javax.persistence.Enumerated;
 
 @Entity
 @Audited
-public class Pin extends PersistedEntityBase {
+public class GpioPin extends PersistedEntityBase {
     private Integer number;
 
     @Enumerated(EnumType.STRING)
     private PinMode mode;
+
+    private String description;
 
     public Integer getNumber() {
         return number;
@@ -30,5 +32,13 @@ public class Pin extends PersistedEntityBase {
 
     public void setMode(PinMode mode) {
         this.mode = mode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

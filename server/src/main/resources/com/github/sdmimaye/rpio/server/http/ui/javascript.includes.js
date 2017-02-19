@@ -11,6 +11,7 @@ lang/en_US.js
 //Controllers
 app/login/login.js
 app/overview/overview.js
+app/gpio/gpio.includes.js
 
 //Services
 app/angular/services/services.includes.js

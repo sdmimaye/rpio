@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('rpio', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngCookies', 'angular.atmosphere', 'ngMaterial'])
-    .config(['$locationProvider', function ($locationProvider) {
-        $locationProvider.html5Mode(true);
-    }])
     .config(['$httpProvider', function ($httpProvider) {
         var interceptor = ['$q', '$location', function ($q, $location) {
             return {

@@ -4,7 +4,7 @@
 }
 
 .toast{
-    width: 100%;
+
 }
 
 .toast-info{
@@ -23,6 +23,10 @@
 .toast-error .md-toast-content{
     color: rgb(255, 255, 255) !important;
     background: rgb(193, 30, 23) !important;
+}
+
+.form-border{
+    border: 1px dotted gray;
 }
 
 .abs-bottom-right{

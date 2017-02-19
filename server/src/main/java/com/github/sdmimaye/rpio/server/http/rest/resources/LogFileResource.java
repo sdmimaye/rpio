@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-@Path("/applogs")
+@Path("/applog")
 public class LogFileResource {
     public static final String ERROR_HEADER = "X-Manager-Error-Key";
     private static final Logger logger = LoggerFactory.getLogger(LogFileResource.class);

@@ -24,6 +24,15 @@
             }
         },
         pin:{
+            general:{
+                description: "Beschreibung",
+                number: "GPIO Pin-Nummer",
+                mode: "Modus",
+                modes:{
+                    input: "Eingang",
+                    output: "Ausgang"
+                }
+            },
             add:{
                 title: "Neuen GPIO-Pin hinzufügen"
             }

@@ -1,4 +1,4 @@
 session.js
-pin.js
+gpio.js
 message.js
 lang.js

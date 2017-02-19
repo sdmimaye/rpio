@@ -3,8 +3,8 @@ angular.module('rpio').config(function ($routeProvider) {
         templateUrl: 'app/overview/overview.html',
         controller: 'OverviewCtrl',
         resolve:{
-            pins: function(pin){
-                return pin.getAll().then(function(res){
+            gpios: function(gpio){
+                return gpio.getAll().then(function(res){
                     return res.data;
                 });
             }
@@ -12,6 +12,6 @@ angular.module('rpio').config(function ($routeProvider) {
     }).otherwise({redirectTo: '/overview'});
 });
 
-angular.module("rpio").controller('OverviewCtrl', function($scope, pins) {
-    console.log("Pins: ", pins);
+angular.module("rpio").controller('OverviewCtrl', function($scope, gpios) {
+    console.log("GPIO's: ", gpios);
 });

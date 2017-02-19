@@ -1,16 +1,17 @@
 package com.github.sdmimaye.rpio.server.http.rest.models.json.gpio;
 
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
-import com.github.sdmimaye.rpio.server.database.models.gpio.Pin;
-import com.github.sdmimaye.rpio.server.database.models.validation.readable.ReadablePin;
+import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
+import com.github.sdmimaye.rpio.server.database.models.validation.readable.ReadableGpioPin;
 import com.github.sdmimaye.rpio.server.http.rest.models.json.base.JsonObject;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JsonPin extends JsonObject implements ReadablePin {
+public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
     private Integer number;
     private PinMode mode;
+    private String description;
 
     @Override
     public Integer getNumber() {
@@ -30,8 +31,8 @@ public class JsonPin extends JsonObject implements ReadablePin {
         this.mode = mode;
     }
 
-    public static JsonPin convert(Pin pin) {
-        JsonPin result = new JsonPin();
+    public static JsonGpioGpioPin convert(GpioPin pin) {
+        JsonGpioGpioPin result = new JsonGpioGpioPin();
         result.setId(pin.getId());
         result.setUuid(pin.getUuid());
         result.setNumber(pin.getNumber());
@@ -40,7 +41,15 @@ public class JsonPin extends JsonObject implements ReadablePin {
         return result;
     }
 
-    public static List<JsonPin> convert(List<Pin> list) {
-        return list.stream().map(p -> JsonPin.convert(p)).collect(Collectors.toList());
+    public static List<JsonGpioGpioPin> convert(List<GpioPin> list) {
+        return list.stream().map(p -> JsonGpioGpioPin.convert(p)).collect(Collectors.toList());
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
