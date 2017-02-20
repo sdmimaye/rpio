@@ -3,15 +3,29 @@ angular.module('rpio').config(function ($routeProvider) {
         templateUrl: 'app/overview/overview.html',
         controller: 'OverviewCtrl',
         resolve:{
-            gpios: function(gpio){
-                return gpio.getAll().then(function(res){
-                    return res.data;
-                });
-            }
+
         }
     }).otherwise({redirectTo: '/overview'});
 });
 
-angular.module("rpio").controller('OverviewCtrl', function($scope, gpios) {
-    console.log("GPIO's: ", gpios);
+angular.module("rpio").controller('OverviewCtrl', function($scope, gpio) {
+    $scope.model = {
+        gpios: []
+    };
+    gpio.register(function (message) {
+        if(!$scope.model.gpios.some(function(pin){return pin.number === message.data.number}))
+            $scope.model.gpios.push(message.data);
+
+        $scope.model.gpios.forEach(function(pin){
+            if(pin.number !== message.data.number) return;
+
+            pin.state = message.data.state;
+        });
+    });
+
+    $scope.view = {
+        change: function (pin) {
+            gpio.change(pin);
+        }
+    }
 });

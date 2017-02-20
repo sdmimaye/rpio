@@ -14,4 +14,5 @@ angular-touch.js
 //Angular-Material
 angular-material.js
 
+atmosphere.js
 angular-atmosphere-service.js

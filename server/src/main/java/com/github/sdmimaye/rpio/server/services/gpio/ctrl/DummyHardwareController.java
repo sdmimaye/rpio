@@ -19,16 +19,29 @@ public class DummyHardwareController implements HardwareController {
     }
 
     @Override
-    public GpioOutput getOutputPin(int address) {
+    public GpioOutput getOutputPin(String description, int address) {
         return new GpioOutput() {
+            private GpioPinState state = GpioPinState.LOW;
+
             @Override
             public void setState(GpioPinState state) {
+                this.state = state;
                 logger.info("Dummy-Output Pin: {} set to: {}", address, state);
             }
 
             @Override
             public int getNumber() {
                 return address;
+            }
+
+            @Override
+            public String getDescription() {
+                return description;
+            }
+
+            @Override
+            public GpioPinState getState() {
+                return state;
             }
 
             @Override
@@ -39,7 +52,7 @@ public class DummyHardwareController implements HardwareController {
     }
 
     @Override
-    public GpioInput getInputPin(int address) {
+    public GpioInput getInputPin(String description, int address) {
         return new GpioInput() {
             @Override
             public void register(GpioPinStateListener listener) {
@@ -56,6 +69,11 @@ public class DummyHardwareController implements HardwareController {
             @Override
             public int getNumber() {
                 return address;
+            }
+
+            @Override
+            public String getDescription() {
+                return description;
             }
 
             @Override

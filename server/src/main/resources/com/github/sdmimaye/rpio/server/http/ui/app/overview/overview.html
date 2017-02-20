@@ -1,4 +1,23 @@
-<md-button href="/#!/gpio/add" aria-label="Add-Pin" class="md-fab md-primary abs-bottom-right">
-    <md-icon md-font-icon="material-icons">add</md-icon>
-    <md-tooltip md-direction="left">{{loc.pin.add.title}}</md-tooltip>
-</md-button>
+<div class="md-padding">
+    <form data-ng-submit="view.submit()">
+        <section class="md-whiteframe-z1">
+            <md-toolbar>
+                <div class="md-toolbar-tools">{{loc.overview.title}}</div>
+            </md-toolbar>
+            <md-content>
+                <md-list flex>
+                    <md-list-item ng-class="{'gpio-high': gpio.state === 'HIGH', 'gpio-low': gpio.state === 'LOW'}" class="md-3-line" ng-repeat="gpio in model.gpios" ng-click="view.change(gpio)">
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{gpio.description}}</h3>
+                            <h4>{{gpio.number}}</h4>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+            <md-button href="/#!/gpio/add" aria-label="Add-Pin" class="md-fab md-primary abs-bottom-right">
+                <md-icon md-font-icon="material-icons">add</md-icon>
+                <md-tooltip md-direction="left">{{loc.gpio.add.title}}</md-tooltip>
+            </md-button>
+        </section>
+    </form>
+</div>

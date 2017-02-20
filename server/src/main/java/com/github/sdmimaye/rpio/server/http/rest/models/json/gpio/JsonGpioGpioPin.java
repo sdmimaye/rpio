@@ -37,6 +37,7 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
         result.setUuid(pin.getUuid());
         result.setNumber(pin.getNumber());
         result.setMode(pin.getMode());
+        result.setDescription(pin.getDescription());
 
         return result;
     }

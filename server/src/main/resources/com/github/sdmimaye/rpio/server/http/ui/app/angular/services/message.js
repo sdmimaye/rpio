@@ -6,6 +6,7 @@ angular.module('rpio').service('message', function($mdToast){
                     .textContent(message)
                     .hideDelay(3000)
                     .toastClass('toast toast-info')
+                    .capsule(true)
             );
         },
         error: function(message){
@@ -14,6 +15,7 @@ angular.module('rpio').service('message', function($mdToast){
                     .textContent(message)
                     .hideDelay(3000)
                     .toastClass('toast toast-error')
+                    .capsule(true)
             );
         }
     };

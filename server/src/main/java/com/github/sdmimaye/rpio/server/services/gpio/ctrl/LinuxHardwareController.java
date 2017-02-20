@@ -25,9 +25,9 @@ public class LinuxHardwareController implements HardwareController{
     }
 
     @Override
-    public GpioInput getInputPin(int address) {
+    public GpioInput getInputPin(String description, int address) {
         return new GpioInput() {
-            private final GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(address));
+            private final GpioPinDigitalInput pin = gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(address), description);
 
             @Override
             public void close() throws IOException {
@@ -40,11 +40,16 @@ public class LinuxHardwareController implements HardwareController{
             }
 
             @Override
+            public String getDescription() {
+                return pin.getName();
+            }
+
+            @Override
             public void register(GpioPinStateListener listener) {
                 pin.addListener(new GpioPinListenerDigital() {
                     @Override
                     public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                        listener.onPinStateChanged(getNumber(), GpioPinState.byValue(event.getState()));
+                        listener.onPinStateChanged(getDescription(), getNumber(), GpioPinState.byValue(event.getState()));
                     }
                 });
             }
@@ -65,9 +70,9 @@ public class LinuxHardwareController implements HardwareController{
     }
 
     @Override
-    public GpioOutput getOutputPin(int address) {
+    public GpioOutput getOutputPin(String description, int address) {
         return new GpioOutput() {
-            private final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address));
+            private final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address), description);
 
             @Override
             public void close() throws IOException {
@@ -77,6 +82,16 @@ public class LinuxHardwareController implements HardwareController{
             @Override
             public int getNumber() {
                 return pin.getPin().getAddress();
+            }
+
+            @Override
+            public String getDescription() {
+                return pin.getName();
+            }
+
+            @Override
+            public GpioPinState getState() {
+                return GpioPinState.byValue(pin.getState());
             }
 
             @Override

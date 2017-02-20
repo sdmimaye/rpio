@@ -7,7 +7,9 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListene
 import com.google.inject.Inject;
 import org.atmosphere.config.service.Disconnect;
 import org.atmosphere.config.service.ManagedService;
+import org.atmosphere.config.service.Put;
 import org.atmosphere.config.service.Ready;
+import org.atmosphere.cpr.AtmosphereRequest;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.AtmosphereResourceEvent;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -18,7 +20,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedService(path = "/async/qpio")
+@ManagedService(path = "/async/gpio")
 @RolesAllowed("pin-read")
 public class AsyncGpioResource implements GpioPinStateListener {
     private static final Logger logger = LoggerFactory.getLogger(AsyncGpioResource.class);
@@ -39,6 +41,25 @@ public class AsyncGpioResource implements GpioPinStateListener {
             connections.add(resource);
         }
         logger.info("AsyncPinResource {} connected", resource.uuid());
+    }
+
+    @Put
+    public final void onMessage(final AtmosphereResource resource) {
+        synchronized (mutex) {
+            AtmosphereRequest request = resource.getRequest();
+            String command = request.getHeader("command");
+            switch (command) {
+                case "change":
+                    doHandleChangeCommand(resource, request.getHeader("number"));
+                    break;
+            }
+        }
+    }
+
+    private void doHandleChangeCommand(AtmosphereResource resource, String number) {
+        synchronized (mutex) {
+            service.change(number);
+        }
     }
 
     @Disconnect
@@ -64,9 +85,9 @@ public class AsyncGpioResource implements GpioPinStateListener {
     }
 
     @Override
-    public void onPinStateChanged(int number, GpioPinState state) {
+    public void onPinStateChanged(String description, int number, GpioPinState state) {
         synchronized (mutex) {
-            connections.forEach(c -> send(c, new JsonPinState(number, state)));
+            connections.forEach(c -> send(c, new JsonPinState(description, number, state)));
         }
     }
 }

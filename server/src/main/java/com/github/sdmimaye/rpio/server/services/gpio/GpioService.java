@@ -10,7 +10,6 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinState;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.Gpio;
-import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -45,10 +44,7 @@ public class GpioService implements RpioService {
     public void register(GpioPinStateListener listener) {
         synchronized (mutex) {
             listeners.add(listener);
-            gpios.stream()
-                    .filter(g -> g.getPinMode() != PinMode.INPUT)
-                    .map(g -> (GpioInput) g)
-                    .forEach(g -> broadcast(listener, g.getNumber(), g.getState()));
+            gpios.forEach(g -> broadcast(listener, g.getDescription(), g.getNumber(), g.getState()));
         }
     }
 
@@ -61,24 +57,21 @@ public class GpioService implements RpioService {
         }
     }
 
-    private void broadcast(GpioPinStateListener listener, int number, GpioPinState state) {
+    private void broadcast(GpioPinStateListener listener, String description, int number, GpioPinState state) {
         synchronized (mutex) {
-            listener.onPinStateChanged(number, state);
+            listener.onPinStateChanged(description, number, state);
         }
     }
 
-    private void broadcast(int number, GpioPinState state) {
+    private void broadcast(String description, int number, GpioPinState state) {
         synchronized (mutex) {
-            listeners.forEach(l -> broadcast(l, number, state));
+            listeners.forEach(l -> broadcast(l, description, number, state));
         }
     }
 
-    private void broadcast() {
+    public void broadcast() {
         synchronized (mutex) {
-            gpios.stream()
-                    .filter(g -> g.getPinMode() != PinMode.INPUT)
-                    .map(g -> (GpioInput) g)
-                    .forEach(g -> broadcast(g.getNumber(), g.getState()));
+            gpios.forEach(g -> broadcast(g.getDescription(), g.getNumber(), g.getState()));
         }
     }
 
@@ -101,18 +94,17 @@ public class GpioService implements RpioService {
                 List<GpioPin> pins = dao.getAll();
 
                 logger.trace("Removing deleted Pins...");
-                boolean removed = doRemoveMissingPins(pins);
+                doRemoveMissingPins(pins);
 
                 logger.trace("Adding missing Pins...");
-                boolean added = doAddMissingPins(pins);
+                doAddMissingPins(pins);
 
-                if(added || removed) broadcast();
+                broadcast();
             }
         });
     }
 
-    private boolean doRemoveMissingPins(List<GpioPin> pins) {
-        boolean anyModification = false;
+    private void doRemoveMissingPins(List<GpioPin> pins) {
         Iterator<Gpio> iterator = gpios.iterator();
         while (iterator.hasNext()) {
             Gpio next = iterator.next();
@@ -121,31 +113,39 @@ public class GpioService implements RpioService {
 
             IOUtils.closeQuietly(next);
             iterator.remove();
-            anyModification = true;
         }
-
-        return anyModification;
     }
 
-    private boolean doAddMissingPins(List<GpioPin> pins) {
-        boolean anyModification = false;
+    private void doAddMissingPins(List<GpioPin> pins) {
         for (GpioPin pin : pins) {
             if(gpios.stream().anyMatch(g -> g.getNumber() == pin.getNumber()))
                 continue;
 
             switch (pin.getMode()) {
                 case INPUT:
-                    gpios.add(controller.getInputPin(pin.getNumber()));
+                    gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber()));
                     break;
                 case OUTPUT:
-                    gpios.add(controller.getOutputPin(pin.getNumber()));
+                    gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber()));
                     break;
                 default:
                     throw new RuntimeException("Invalid Mode for Pin-Number: " + pin.getNumber());
             }
-            anyModification = true;
         }
+    }
 
-        return anyModification;
+    public void change(String number) {
+        try {
+            int pin = Integer.parseInt(number);
+            synchronized (mutex) {
+                gpios.stream()
+                        .filter(g -> g.getPinMode() == PinMode.OUTPUT && g.getNumber() == pin)
+                        .map(g -> (GpioOutput)g)
+                        .forEach(GpioOutput::change);
+                broadcast();
+            }
+        } catch (Exception ex) {
+            logger.warn("Could not set GPIO with invalid Pin-Number: " + number);
+        }
     }
 }

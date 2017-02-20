@@ -6,7 +6,6 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListene
 
 public interface GpioInput extends Gpio {
     void register(GpioPinStateListener listener);
-    GpioPinState getState();
 
     @Override
     default PinMode getPinMode() {

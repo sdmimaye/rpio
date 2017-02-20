@@ -23,7 +23,10 @@
                 error: "Beim Logout ist ein Fehler aufgetretten"
             }
         },
-        pin:{
+        overview:{
+            title: "Übersicht"
+        },
+        gpio:{
             general:{
                 description: "Beschreibung",
                 number: "GPIO Pin-Nummer",
@@ -31,10 +34,28 @@
                 modes:{
                     input: "Eingang",
                     output: "Ausgang"
+                },
+                messages:{
+                    missingDescription: "Bitte vergeben Sie eine Beschreibung",
+                    missingNumber: "Bitte wählen Sie einen GPIO-Pin",
+                    missingMode: "Bitte wählen Sie einen Modus",
+                    pinInUse: "Dieser GPIO-Pin wird bereits verwendet",
+                    descriptionInUse: "Diese Beschreibung wird bereits bei einem anderen GPIO-Pin verwendet"
                 }
             },
             add:{
-                title: "Neuen GPIO-Pin hinzufügen"
+                title: "Neuen GPIO-Pin hinzufügen",
+                messages:{
+                    success: "Der GPIO-Pin wurde erfolgreich hinzugefügt",
+                    error: "Der GPIO-Pin konnte nicht hinzugefügt werden"
+                }
+            },
+            edit:{
+                title: "GPIO-Pin bearbeiten",
+                messages:{
+                    success: "Der GPIO-Pin wurde erfolgreich bearbeitet",
+                    error: "Der GPIO-Pin konnte nicht bearbeitet werden"
+                }
             }
         }
     });

@@ -10,4 +10,14 @@ public interface GpioOutput extends Gpio {
     default PinMode getPinMode() {
         return PinMode.OUTPUT;
     }
+    default void change(){
+        switch (getState()) {
+            case HIGH:
+                setState(GpioPinState.LOW);
+                break;
+            case LOW:
+                setState(GpioPinState.HIGH);
+                break;
+        }
+    }
 }

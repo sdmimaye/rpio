@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.server.database.hibernate;
 
+import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
 import com.github.sdmimaye.rpio.server.database.models.notifications.Notification;
 import com.github.sdmimaye.rpio.server.database.models.notifications.NotificationChannel;
 import com.github.sdmimaye.rpio.server.database.models.notifications.NotificationSubscription;
@@ -19,5 +20,8 @@ class HibernateClassMapper {
         configuration.addAnnotatedClass(RevisionEntry.class);
         configuration.addAnnotatedClass(Role.class);
         configuration.addAnnotatedClass(User.class);
+
+        //GPIOs
+        configuration.addAnnotatedClass(GpioPin.class);
     }
 }

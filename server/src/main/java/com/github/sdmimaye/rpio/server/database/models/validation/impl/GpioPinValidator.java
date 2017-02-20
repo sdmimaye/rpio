@@ -8,6 +8,7 @@ import com.github.sdmimaye.rpio.server.database.models.validation.ValidationErro
 import com.github.sdmimaye.rpio.server.database.models.validation.ValidationErrorListBuilder;
 import com.github.sdmimaye.rpio.server.database.models.validation.readable.ReadableGpioPin;
 import com.google.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
 
 public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, GpioPinDao> {
     @Inject
@@ -17,23 +18,27 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
 
     @Override
     protected GpioPin doInsert(ReadableGpioPin model, ValidationErrorListBuilder builder) {
+        if(StringUtils.isEmpty(model.getDescription()))
+            builder.with("missingDescription");
+
         if(model.getNumber() == null)
-            builder.with("missingNumber", model);
+            builder.with("missingNumber");
 
         if(model.getMode() == null)
-            builder.with("missingMode", model);
+            builder.with("missingMode");
 
         GpioPin byNumber = dao.getByNumber(model.getNumber());
         if(byNumber != null)
-            builder.with("pinInUse", model);
+            builder.with("pinInUse");
 
         GpioPin byDescription = dao.getByDescription(model.getDescription());
         if(byDescription != null)
-            builder.with("descriptionInUse", model);
+            builder.with("descriptionInUse");
 
         GpioPin pin = dao.create();
         pin.setMode(model.getMode());
         pin.setNumber(model.getNumber());
+        pin.setDescription(model.getDescription());
 
         dao.save(pin);
         return pin;
@@ -41,26 +46,30 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
 
     @Override
     protected GpioPin doUpdate(long id, ReadableGpioPin model, ValidationErrorListBuilder builder) {
+        if(StringUtils.isEmpty(model.getDescription()))
+            builder.with("missingDescription");
+
         if(model.getNumber() == null)
-            builder.with("missingNumber", model);
+            builder.with("missingNumber");
 
         if(model.getMode() == null)
-            builder.with("missingMode", model);
+            builder.with("missingMode");
 
         GpioPin byId = dao.getById(model.getId());
         if(byId == null)
             ValidationError.critical("notFound");
 
         GpioPin byNumber = dao.getByNumber(model.getNumber());
-        if(byNumber != byId)
-            builder.with("pinInUse", model);
+        if(byNumber != null && byNumber != byId)
+            builder.with("pinInUse");
 
         GpioPin byDescription = dao.getByDescription(model.getDescription());
-        if(byDescription != byId)
-            builder.with("descriptionInUse", model);
+        if(byDescription != null && byDescription != byId)
+            builder.with("descriptionInUse");
 
         byId.setNumber(model.getNumber());
         byId.setMode(model.getMode());
+        byId.setDescription(model.getDescription());
 
         return byId;
     }

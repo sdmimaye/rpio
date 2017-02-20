@@ -1,13 +1,26 @@
-<div flex>
-    <div layout-gt-xs="row">
-        <md-input-container class="md-block" flex-gt-xs>
-            <label>Company (Disabled)</label>
-            <input ng-model="user.company" disabled>
+<div flex class="md-padding">
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <md-radio-group ng-model="model.gpio.mode" layout="row" class="md-primary">
+                <md-radio-button value="INPUT">{{loc.gpio.general.modes.input}}</md-radio-button>
+                <md-radio-button value="OUTPUT"> {{loc.gpio.general.modes.output}}</md-radio-button>
+            </md-radio-group>
         </md-input-container>
-
-        <md-input-container>
-            <label>Enter date</label>
-            <md-datepicker ng-model="user.submissionDate"></md-datepicker>
+    </div>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{loc.gpio.general.description}}</label>
+            <input ng-model="model.gpio.description">
+        </md-input-container>
+    </div>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{loc.gpio.general.number}}</label>
+            <md-select ng-model="model.gpio.number">
+                <md-option ng-repeat="number in view.numbers" ng-value="number">
+                    {{number}}
+                </md-option>
+            </md-select>
         </md-input-container>
     </div>
 </div>

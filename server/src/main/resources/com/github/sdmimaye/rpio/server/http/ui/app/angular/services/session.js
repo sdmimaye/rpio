@@ -1,4 +1,4 @@
-angular.module('rpio').service('session', function($http, message, lang){
+angular.module('rpio').service('session', function($http, message, lang, gpio){
     var service = {
         session: null,
         callbacks: [],
@@ -17,6 +17,12 @@ angular.module('rpio').service('session', function($http, message, lang){
             service.callbacks.forEach(function(cb){
                 cb(event, service.session);
             });
+
+            if(service.isValidSession()){
+                gpio.start();
+            }else{
+                gpio.stop();
+            }
         },
         login: function (username, password) {
             return $http.post('api/session', {loginName: username, password: password}).then(function(res){
