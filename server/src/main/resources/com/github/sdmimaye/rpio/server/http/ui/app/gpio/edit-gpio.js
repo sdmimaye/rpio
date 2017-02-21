@@ -7,18 +7,30 @@ angular.module('rpio').config(function ($routeProvider) {
                 return gpio.getById($route.current.params.id).then(function (res) {
                     return res.data;
                 });
+            },
+            pins: function (gpio) {
+                return gpio.getPinList().then(function (res) {
+                    return res.data;
+                });
             }
         }
     });
 });
 
-angular.module("rpio").controller('EditGpioCtrl', function($scope, $location, gpio, model, message, error) {
+angular.module("rpio").controller('EditGpioCtrl', function($scope, $location, pins, gpio, model, message, error) {
     $scope.model = {
         gpio: model
     };
 
     $scope.view = {
-        numbers:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        getCapablePins: function () {
+            var search = "DIGITAL_" + $scope.model.gpio.mode;
+            return pins.filter(function (pin) {
+                return pin.supportedPinModes.some(function (mode) {
+                    return mode === search;
+                });
+            });
+        },
         submit: function(){
             gpio.update($scope.model.gpio).then(function(){
                 message.info($scope.loc.gpio.edit.messages.success);

@@ -5,6 +5,9 @@ angular.module('rpio').service('gpio', function ($http, $location, async) {
         getAll: function () {
             return $http.get('api/gpio/');
         },
+        getPinList: function () {
+            return $http.get('api/gpio/pin-list');
+        },
         getById: function (id) {
             return $http.get('api/gpio/' + id);
         },

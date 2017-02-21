@@ -9,10 +9,14 @@ import com.github.sdmimaye.rpio.server.http.rest.models.json.gpio.JsonGpioGpioPi
 import com.github.sdmimaye.rpio.server.http.rest.queries.QueryParameters;
 import com.github.sdmimaye.rpio.server.services.gpio.GpioService;
 import com.google.inject.Inject;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.system.SystemInfo;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Arrays;
 import java.util.List;
 
 @Path("/gpio")
@@ -28,6 +32,19 @@ public class GpioPinResource {
         this.validator = validator;
         this.dao = dao;
         this.service = service;
+    }
+
+    @GET
+    @RolesAllowed("gpio-read")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/pin-list")
+    public List<Pin> handleGetAllPhysicalPins() {
+        try {
+            SystemInfo.BoardType type = SystemInfo.getBoardType();
+            return Arrays.asList(RaspiPin.allPins(type));
+        } catch (Exception ex) {
+            return Arrays.asList(RaspiPin.allPins(SystemInfo.BoardType.RaspberryPi_3B));
+        }
     }
 
     @GET

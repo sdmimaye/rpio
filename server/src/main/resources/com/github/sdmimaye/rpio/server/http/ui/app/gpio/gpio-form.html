@@ -11,8 +11,8 @@
         <md-input-container class="md-block" flex>
             <label>{{loc.gpio.general.number}}</label>
             <md-select ng-model="model.gpio.number">
-                <md-option ng-repeat="number in view.numbers" ng-value="number">
-                    {{number}}
+                <md-option ng-repeat="pin in view.getCapablePins()" ng-value="pin.address">
+                    {{pin.address}}
                 </md-option>
             </md-select>
         </md-input-container>
