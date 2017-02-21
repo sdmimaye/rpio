@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Singleton
-public class GpioService implements RpioService {
+public class GpioService implements RpioService, GpioPinStateListener {
     private static final Logger logger = LoggerFactory.getLogger(GpioService.class);
 
     private final HardwareController controller;
@@ -123,10 +123,10 @@ public class GpioService implements RpioService {
 
             switch (pin.getMode()) {
                 case INPUT:
-                    gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber()));
+                    gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber(), this));
                     break;
                 case OUTPUT:
-                    gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber()));
+                    gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber(), this));
                     break;
                 default:
                     throw new RuntimeException("Invalid Mode for Pin-Number: " + pin.getNumber());
@@ -147,5 +147,10 @@ public class GpioService implements RpioService {
         } catch (Exception ex) {
             logger.warn("Could not set GPIO with invalid Pin-Number: " + number);
         }
+    }
+
+    @Override
+    public void onPinStateChanged(String description, int number, GpioPinState state) {
+        broadcast(description, number, state);
     }
 }

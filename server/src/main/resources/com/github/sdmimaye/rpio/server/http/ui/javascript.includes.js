@@ -16,8 +16,5 @@ app/gpio/gpio.includes.js
 //Services
 app/angular/services/services.includes.js
 
-//Factories
-app/angular/factories/factories.includes.js
-
 //Components
 app/angular/components/components.includes.js

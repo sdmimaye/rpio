@@ -35,6 +35,12 @@
                     input: "Eingang",
                     output: "Ausgang"
                 },
+                ouputMode: "Betriebsart",
+                ouputModes:{
+                    toggle: "Ein-/Ausschalten",
+                    timeout: "Zeitgesteuert"
+                },
+                timeout: "Zeitlimit (in ms)",
                 messages:{
                     missingDescription: "Bitte vergeben Sie eine Beschreibung",
                     missingNumber: "Bitte wählen Sie einen GPIO-Pin",
@@ -55,6 +61,12 @@
                 messages:{
                     success: "Der GPIO-Pin wurde erfolgreich bearbeitet",
                     error: "Der GPIO-Pin konnte nicht bearbeitet werden"
+                }
+            },
+            delete:{
+                messages:{
+                    success: "Der GPIO-Pin wurde erfolgreich gelöscht",
+                    error: "Beim Löschen des GPIO-Pins ist ein Fehler aufgetretten"
                 }
             }
         }

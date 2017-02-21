@@ -2,6 +2,7 @@ package com.github.sdmimaye.rpio.server.database.models.validation.impl;
 
 import com.github.sdmimaye.rpio.server.database.dao.gpio.GpioPinDao;
 import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
+import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
 import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
 import com.github.sdmimaye.rpio.server.database.models.validation.ModelValidator;
 import com.github.sdmimaye.rpio.server.database.models.validation.ValidationError;
@@ -35,10 +36,18 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         if(byDescription != null)
             builder.with("descriptionInUse");
 
+        if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == null)
+            builder.with("missingOutputMode");
+
+        if(model.getMode() == PinMode.OUTPUT && model.getTimeout() == null)
+            builder.with("missingTimeout");
+
         GpioPin pin = dao.create();
         pin.setMode(model.getMode());
         pin.setNumber(model.getNumber());
         pin.setDescription(model.getDescription());
+        pin.setOuputMode(model.getOuputMode());
+        pin.setTimeout(model.getTimeout());
 
         dao.save(pin);
         return pin;
@@ -67,9 +76,17 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         if(byDescription != null && byDescription != byId)
             builder.with("descriptionInUse");
 
+        if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == null)
+            builder.with("missingOutputMode");
+
+        if(model.getMode() == PinMode.OUTPUT && model.getTimeout() == null)
+            builder.with("missingTimeout");
+
         byId.setNumber(model.getNumber());
         byId.setMode(model.getMode());
         byId.setDescription(model.getDescription());
+        byId.setOuputMode(model.getOuputMode());
+        byId.setTimeout(model.getTimeout());
 
         return byId;
     }

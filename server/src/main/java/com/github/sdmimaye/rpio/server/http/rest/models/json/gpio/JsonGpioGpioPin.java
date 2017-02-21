@@ -1,6 +1,7 @@
 package com.github.sdmimaye.rpio.server.http.rest.models.json.gpio;
 
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
+import com.github.sdmimaye.rpio.server.database.models.enums.PinOuputMode;
 import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
 import com.github.sdmimaye.rpio.server.database.models.validation.readable.ReadableGpioPin;
 import com.github.sdmimaye.rpio.server.http.rest.models.json.base.JsonObject;
@@ -12,6 +13,8 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
     private Integer number;
     private PinMode mode;
     private String description;
+    private PinOuputMode ouputMode;
+    private Integer timeout;
 
     @Override
     public Integer getNumber() {
@@ -38,6 +41,8 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
         result.setNumber(pin.getNumber());
         result.setMode(pin.getMode());
         result.setDescription(pin.getDescription());
+        result.setOuputMode(pin.getOuputMode());
+        result.setTimeout(pin.getTimeout());
 
         return result;
     }
@@ -52,5 +57,23 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public PinOuputMode getOuputMode() {
+        return ouputMode;
+    }
+
+    public void setOuputMode(PinOuputMode ouputMode) {
+        this.ouputMode = ouputMode;
+    }
+
+    @Override
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 }

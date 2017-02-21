@@ -8,10 +8,11 @@ angular.module('rpio').config(function ($routeProvider) {
     });
 });
 
-angular.module("rpio").controller('AddGpioCtrl', function($scope, gpio, message, error) {
+angular.module("rpio").controller('AddGpioCtrl', function($scope, $location, gpio, message, error) {
     $scope.model = {
         gpio:{
-            mode: "INPUT"
+            mode: "INPUT",
+            ouputMode: "TOGGLE"
         }
     };
 
@@ -20,6 +21,7 @@ angular.module("rpio").controller('AddGpioCtrl', function($scope, gpio, message,
         submit: function(){
             gpio.insert($scope.model.gpio).then(function(){
                 message.info($scope.loc.gpio.add.messages.success);
+                $location.path("/overview");
             }, function(res){
                 error.show("gpio.general.messages", "gpio.add.messages", res);
             });

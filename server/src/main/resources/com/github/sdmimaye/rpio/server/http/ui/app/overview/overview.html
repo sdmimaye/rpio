@@ -6,11 +6,14 @@
             </md-toolbar>
             <md-content>
                 <md-list flex>
-                    <md-list-item ng-class="{'gpio-high': gpio.state === 'HIGH', 'gpio-low': gpio.state === 'LOW'}" class="md-3-line" ng-repeat="gpio in model.gpios" ng-click="view.change(gpio)">
+                    <md-list-item ng-class="{'gpio-disabled': !gpio.state, 'gpio-high': gpio.state === 'HIGH', 'gpio-low': gpio.state === 'LOW'}" class="md-3-line" ng-repeat="gpio in model.gpios">
                         <div class="md-list-item-text" layout="column">
                             <h3>{{gpio.description}}</h3>
-                            <h4>{{gpio.number}}</h4>
+                            <h4>{{loc.gpio.general.number}}: {{gpio.number}}</h4>
                         </div>
+                        <md-icon aria-label="Change" ng-show="gpio.mode === 'OUTPUT'" md-font-icon="material-icons" class="md-secondary" ng-click="view.change(gpio)">swap_vertical_circle</md-icon>
+                        <md-icon aria-label="Edit" ng-show="gpio.id" md-font-icon="material-icons" class="md-secondary" ng-click="view.edit(gpio)">edit</md-icon>
+                        <md-icon aria-label="Delete" class="md-secondary md-warn" md-font-icon="material-icons" ng-click="view.delete(gpio)">delete_forever</md-icon>
                     </md-list-item>
                 </md-list>
             </md-content>

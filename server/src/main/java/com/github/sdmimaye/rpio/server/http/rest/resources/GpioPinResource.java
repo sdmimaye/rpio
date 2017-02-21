@@ -7,6 +7,7 @@ import com.github.sdmimaye.rpio.server.database.models.validation.ValidationErro
 import com.github.sdmimaye.rpio.server.database.models.validation.impl.GpioPinValidator;
 import com.github.sdmimaye.rpio.server.http.rest.models.json.gpio.JsonGpioGpioPin;
 import com.github.sdmimaye.rpio.server.http.rest.queries.QueryParameters;
+import com.github.sdmimaye.rpio.server.services.gpio.GpioService;
 import com.google.inject.Inject;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,12 +20,14 @@ public class GpioPinResource {
     private final HibernateUtil util;
     private final GpioPinValidator validator;
     private final GpioPinDao dao;
+    private final GpioService service;
 
     @Inject
-    public GpioPinResource(HibernateUtil util, GpioPinValidator validator, GpioPinDao dao) {
+    public GpioPinResource(HibernateUtil util, GpioPinValidator validator, GpioPinDao dao, GpioService service) {
         this.util = util;
         this.validator = validator;
         this.dao = dao;
+        this.service = service;
     }
 
     @GET
@@ -61,6 +64,7 @@ public class GpioPinResource {
     public JsonGpioGpioPin handleCreate(JsonGpioGpioPin data) {
         GpioPin result = validator.insert(data);
         util.commitAndClose();
+        service.sync();
 
         return JsonGpioGpioPin.convert(result);
     }
@@ -73,6 +77,7 @@ public class GpioPinResource {
     public JsonGpioGpioPin handleUpdate(JsonGpioGpioPin data, @PathParam("id") long id) {
         GpioPin result = validator.update(id, data);
         util.commitAndClose();
+        service.sync();
 
         return JsonGpioGpioPin.convert(result);
     }
@@ -85,6 +90,8 @@ public class GpioPinResource {
     public JsonGpioGpioPin handleDelete(@PathParam("id") long id) {
         GpioPin pin = validator.delete(id);
         util.commitAndClose();
+        service.sync();
+
         return JsonGpioGpioPin.convert(pin);
     }
 }

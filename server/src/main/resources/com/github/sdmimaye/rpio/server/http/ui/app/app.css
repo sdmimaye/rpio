@@ -23,6 +23,11 @@
     background-color: #ffaaaa;
 }
 
+.gpio-disabled{
+    background-color: lightgray;
+    opacity: 0.2;
+}
+
 .toast-info .md-toast-content{
     color: rgb(255, 255, 255) !important;
     background: rgb(60, 60, 60) !important;

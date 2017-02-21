@@ -9,18 +9,32 @@
     </div>
     <div layout="row">
         <md-input-container class="md-block" flex>
-            <label>{{loc.gpio.general.description}}</label>
-            <input ng-model="model.gpio.description">
-        </md-input-container>
-    </div>
-    <div layout="row">
-        <md-input-container class="md-block" flex>
             <label>{{loc.gpio.general.number}}</label>
             <md-select ng-model="model.gpio.number">
                 <md-option ng-repeat="number in view.numbers" ng-value="number">
                     {{number}}
                 </md-option>
             </md-select>
+        </md-input-container>
+    </div>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{loc.gpio.general.description}}</label>
+            <input type="text" ng-model="model.gpio.description">
+        </md-input-container>
+    </div>
+    <div ng-show="model.gpio.mode === 'OUTPUT'" layout="row">
+        <md-input-container class="md-block" flex>
+            <md-radio-group ng-model="model.gpio.ouputMode" layout="row" class="md-primary">
+                <md-radio-button value="TOGGLE">{{loc.gpio.general.ouputModes.toggle}}</md-radio-button>
+                <md-radio-button value="TIMEOUT"> {{loc.gpio.general.ouputModes.timeout}}</md-radio-button>
+            </md-radio-group>
+        </md-input-container>
+    </div>
+    <div ng-show="model.gpio.mode === 'OUTPUT' && model.gpio.ouputMode === 'TIMEOUT'" layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{loc.gpio.general.timeout}}</label>
+            <input type="number" ng-model="model.gpio.timeout">
         </md-input-container>
     </div>
 </div>

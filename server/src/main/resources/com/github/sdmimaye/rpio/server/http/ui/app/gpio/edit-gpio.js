@@ -12,7 +12,7 @@ angular.module('rpio').config(function ($routeProvider) {
     });
 });
 
-angular.module("rpio").controller('EditGpioCtrl', function($scope, gpio, model, message, error) {
+angular.module("rpio").controller('EditGpioCtrl', function($scope, $location, gpio, model, message, error) {
     $scope.model = {
         gpio: model
     };
@@ -22,6 +22,7 @@ angular.module("rpio").controller('EditGpioCtrl', function($scope, gpio, model, 
         submit: function(){
             gpio.update($scope.model.gpio).then(function(){
                 message.info($scope.loc.gpio.edit.messages.success);
+                $location.path("/overview");
             }, function(res){
                 error.show("gpio.general.messages", "gpio.edit.messages", res);
             });

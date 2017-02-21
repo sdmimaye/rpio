@@ -1,4 +1,4 @@
-angular.module('rpio').service('gpio', function ($http, async) {
+angular.module('rpio').service('gpio', function ($http, $location, async) {
     var service = {
         socket: null,
         listeners: [],
@@ -13,6 +13,9 @@ angular.module('rpio').service('gpio', function ($http, async) {
         },
         update: function (gpio) {
             return $http.put('api/gpio/' + gpio.id, gpio);
+        },
+        delete: function(gpio){
+            return $http.delete('api/gpio/' + gpio.id);
         },
         isWebsocketConnected: function () {
             return service.socket !== null && service.socket;
