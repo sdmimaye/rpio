@@ -126,7 +126,14 @@ public class GpioService implements RpioService, GpioPinStateListener {
                     gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber(), this));
                     break;
                 case OUTPUT:
-                    gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber(), this));
+                    switch (pin.getOuputMode()) {
+                        case TOGGLE:
+                            gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber(), this));
+                            break;
+                        case TIMEOUT:
+                            gpios.add(controller.getTimeoutOutputPin(pin.getDescription(), pin.getNumber(), this, pin.getTimeout()));
+                            break;
+                    }
                     break;
                 default:
                     throw new RuntimeException("Invalid Mode for Pin-Number: " + pin.getNumber());

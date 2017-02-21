@@ -3,6 +3,7 @@ package com.github.sdmimaye.rpio.server.database.models.validation.impl;
 import com.github.sdmimaye.rpio.server.database.dao.gpio.GpioPinDao;
 import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
+import com.github.sdmimaye.rpio.server.database.models.enums.PinOuputMode;
 import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
 import com.github.sdmimaye.rpio.server.database.models.validation.ModelValidator;
 import com.github.sdmimaye.rpio.server.database.models.validation.ValidationError;
@@ -39,7 +40,7 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == null)
             builder.with("missingOutputMode");
 
-        if(model.getMode() == PinMode.OUTPUT && model.getTimeout() == null)
+        if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == PinOuputMode.TIMEOUT && model.getTimeout() == null)
             builder.with("missingTimeout");
 
         GpioPin pin = dao.create();
@@ -79,7 +80,7 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == null)
             builder.with("missingOutputMode");
 
-        if(model.getMode() == PinMode.OUTPUT && model.getTimeout() == null)
+        if(model.getMode() == PinMode.OUTPUT && model.getOuputMode() == PinOuputMode.TIMEOUT && model.getTimeout() == null)
             builder.with("missingTimeout");
 
         byId.setNumber(model.getNumber());

@@ -4,6 +4,7 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListene
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
+import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioTimeoutOutput;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,11 @@ public class DummyHardwareController implements HardwareController {
     @Override
     public GpioOutput getOutputPin(String description, int address, GpioPinStateListener listener) {
         return new DummyGpioOutput(description, address, listener);
+    }
+
+    @Override
+    public GpioTimeoutOutput getTimeoutOutputPin(String descirption, int address, GpioPinStateListener listener, int timeout) {
+        return new DummyGpioTimeoutOuput(descirption, address, listener, timeout);
     }
 
     @Override

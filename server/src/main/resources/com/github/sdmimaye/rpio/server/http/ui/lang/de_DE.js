@@ -40,13 +40,15 @@
                     toggle: "Ein-/Ausschalten",
                     timeout: "Zeitgesteuert"
                 },
-                timeout: "Zeitlimit (in ms)",
+                timeout: "Zeitinterval (in ms)",
                 messages:{
                     missingDescription: "Bitte vergeben Sie eine Beschreibung",
                     missingNumber: "Bitte wählen Sie einen GPIO-Pin",
                     missingMode: "Bitte wählen Sie einen Modus",
                     pinInUse: "Dieser GPIO-Pin wird bereits verwendet",
-                    descriptionInUse: "Diese Beschreibung wird bereits bei einem anderen GPIO-Pin verwendet"
+                    descriptionInUse: "Diese Beschreibung wird bereits bei einem anderen GPIO-Pin verwendet",
+                    missingOutputMode: "Bitte geben Sie eine Betriebsart an",
+                    missingTimeout: "Bitte geben Sie ein Zeitinterval an"
                 }
             },
             add:{

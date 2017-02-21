@@ -4,6 +4,7 @@ import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListene
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
+import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioTimeoutOutput;
 import com.google.inject.Singleton;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -30,5 +31,10 @@ public class RpiHardwareController implements HardwareController {
     @Override
     public GpioOutput getOutputPin(String description, int address, GpioPinStateListener listener) {
         return new RpiGpioOuput(gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address), description), listener);
+    }
+
+    @Override
+    public GpioTimeoutOutput getTimeoutOutputPin(String description, int address, GpioPinStateListener listener, int timeout) {
+        return new RpiGpioTimeoutOuput(gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address), description), listener, timeout);
     }
 }
