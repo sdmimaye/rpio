@@ -1,0 +1,14 @@
+<div class="md-padding">
+    <form data-ng-submit="view.submit()">
+        <section class="md-whiteframe-z1">
+            <md-toolbar>
+                <div class="md-toolbar-tools">{{loc.user.edit.title}}</div>
+            </md-toolbar>
+            <div data-ng-include="'app/user/user-form.html'"></div>
+            <md-button type="submit" aria-label="Edit-User" class="md-fab md-primary abs-bottom-right">
+                <md-icon md-font-icon="material-icons">edit</md-icon>
+                <md-tooltip md-direction="left">{{loc.user.edit.title}}</md-tooltip>
+            </md-button>
+        </section>
+    </form>
+</div>
