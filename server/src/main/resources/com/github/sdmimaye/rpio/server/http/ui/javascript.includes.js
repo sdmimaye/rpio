@@ -12,6 +12,7 @@ lang/en_US.js
 app/login/login.js
 app/overview/overview.js
 app/gpio/gpio.includes.js
+app/user/user.includes.js
 
 //Services
 app/angular/services/services.includes.js

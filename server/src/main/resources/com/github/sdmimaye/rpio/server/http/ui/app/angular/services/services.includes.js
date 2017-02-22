@@ -4,3 +4,4 @@ message.js
 lang.js
 error.js
 async.js
+user.js

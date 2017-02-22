@@ -1,0 +1,25 @@
+<div class="lock-size" layout="row">
+    <md-button ng-hide="$ctrl.model.session.loggedIn" class="md-icon-button" aria-label="Login" href="/#!/login">
+        <md-tooltip md-direction="left">{{$ctrl.loc.login.title}}</md-tooltip>
+        <md-icon md-font-icon="material-icons">account_circle</md-icon>
+    </md-button>
+
+    <md-fab-speed-dial class="md-fling" ng-show="$ctrl.model.session.loggedIn" md-direction="left">
+        <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-mini md-primary">
+                <md-icon md-font-icon="material-icons">menu</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button ng-click="$ctrl.view.logout()" aria-label="Logout" class="md-fab md-raised md-mini md-primary">
+                <md-tooltip md-direction="bottom">{{$ctrl.loc.logout.title}}</md-tooltip>
+                <md-icon md-font-icon="material-icons">power_settings_new</md-icon>
+            </md-button>
+            <md-button ng-click="$ctrl.view.user()" aria-label="Facebook" class="md-fab md-raised md-mini md-primary">
+                <md-tooltip md-direction="bottom">{{$ctrl.loc.user.edit.title}}</md-tooltip>
+                <md-icon md-font-icon="material-icons">account_circle</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+</div>

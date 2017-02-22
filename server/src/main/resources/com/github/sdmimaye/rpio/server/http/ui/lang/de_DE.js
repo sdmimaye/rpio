@@ -24,7 +24,31 @@
             }
         },
         overview:{
-            title: "Übersicht"
+            title: "Übersicht",
+            empty: "Keine GPIO-Pins angelegt. Legen Sie einen neuen GPIO-Pin an!"
+        },
+        user:{
+            general:{
+                loginName: "Benutzername",
+                password1: "Passwort",
+                password2: "Password wiederholen",
+                email: "E-Mail Adresse",
+                messages:{
+                    passwordEmpty: "Bitte vergeben Sie ein gültiges Passwort",
+                    loginNameEmpty: "Bitte vergeben Sie einen gültigen Benutzernamen",
+                    passwordMismatch: "Die beiden Passwörter stimmen nicht überein",
+                    invalidEmailAddress: "Die angegebene E-Mail Adresse ist ungültig",
+                    loginTaken: "Dieser Benutzername wird bereits genutzt",
+                    roleNotFound: "Eine Role konnte nicht gefunden werden"
+                }
+            },
+            edit:{
+                title: "Benutzereinstellungen bearbeiten",
+                messages:{
+                    success: "Die Benutzereinstellungen wurden erfolgreich übernommen",
+                    error: "Beim aktualisieren der Benutzereinstellungen ist ein Fehler aufgetretten"
+                }
+            }
         },
         gpio:{
             general:{

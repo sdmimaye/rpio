@@ -5,7 +5,7 @@
                 <div class="md-toolbar-tools">{{loc.overview.title}}</div>
             </md-toolbar>
             <md-content>
-                <md-list flex>
+                <md-list ng-show="model.gpios.length > 0" flex>
                     <md-list-item ng-class="{'gpio-disabled': !gpio.state, 'gpio-high': gpio.state === 'HIGH', 'gpio-low': gpio.state === 'LOW'}" class="md-3-line" ng-repeat="gpio in model.gpios">
                         <div class="md-list-item-text" layout="column">
                             <h3>{{gpio.description}}</h3>
@@ -17,6 +17,9 @@
                         <md-icon aria-label="Delete" class="md-secondary md-warn" md-font-icon="material-icons" ng-click="view.delete(gpio)">delete_forever</md-icon>
                     </md-list-item>
                 </md-list>
+                <p ng-hide="model.gpios.length > 0">
+                    <a layout="row" layout-align="center center" href="/#!/gpio/add">{{loc.overview.empty}}</a>
+                </p>
             </md-content>
             <md-button href="/#!/gpio/add" aria-label="Add-Pin" class="md-fab md-primary abs-bottom-right">
                 <md-icon md-font-icon="material-icons">add</md-icon>
