@@ -8,7 +8,6 @@ import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioTimeoutOutput;
 import com.google.inject.Singleton;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.RaspiPin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +24,16 @@ public class RpiHardwareController implements HardwareController {
 
     @Override
     public GpioInput getInputPin(String description, int address, GpioPinStateListener listener) {
-        return new RpiGpioInput(gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(address), description), listener);
+        return new RpiGpioInput(gpio, address, description, listener);
     }
 
     @Override
     public GpioOutput getOutputPin(String description, int address, GpioPinStateListener listener) {
-        return new RpiGpioOuput(gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address), description), listener);
+        return new RpiGpioOuput(gpio, address, description, listener);
     }
 
     @Override
     public GpioTimeoutOutput getTimeoutOutputPin(String description, int address, GpioPinStateListener listener, int timeout) {
-        return new RpiGpioTimeoutOuput(gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(address), description), listener, timeout);
+        return new RpiGpioTimeoutOuput(gpio, address, description, listener, timeout);
     }
 }
