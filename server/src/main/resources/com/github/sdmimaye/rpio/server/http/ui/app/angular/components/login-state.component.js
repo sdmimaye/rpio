@@ -8,6 +8,10 @@ angular.module('rpio').component('loginState', {
             session: null
         };
         self.view = {
+            language: function(){
+                console.log("Changing-Lang");
+                self.loc = lang.change();
+            },
             logout: function(){
                 session.logout();
                 $location.path('/login')

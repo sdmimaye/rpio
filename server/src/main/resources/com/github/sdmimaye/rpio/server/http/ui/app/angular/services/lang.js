@@ -18,6 +18,18 @@ angular.module('rpio').service('lang', function($rootScope, de_DE, en_US){
 
             return $rootScope.loc.code.long;
         },
+        change: function(){
+            switch(service.getLangCode()){
+                case "de_DE":
+                    service.setLang("en_US");
+                    break;
+                case "en_US":
+                    service.setLang("de_DE");
+                    break;
+            }
+
+            return service.getLang();
+        },
         getLang: function(){
             return $rootScope.loc;
         },

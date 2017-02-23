@@ -6,6 +6,9 @@
             short: "de",
             long: "de_DE"
         },
+        lang:{
+            title: "Sprache ändern"
+        },
         login:{
             title: "Login",
             name: "Benutzername",
@@ -25,7 +28,7 @@
         },
         overview:{
             title: "Übersicht",
-            empty: "Keine GPIO-Pins angelegt. Legen Sie einen neuen GPIO-Pin an!"
+            empty: "Legen Sie einen neuen GPIO-Pin an"
         },
         user:{
             general:{
