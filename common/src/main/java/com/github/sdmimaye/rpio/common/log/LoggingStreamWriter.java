@@ -1,6 +1,6 @@
 package com.github.sdmimaye.rpio.common.log;
 
-import org.apache.commons.io.Charsets;
+import com.google.common.base.Charsets;
 import org.apache.commons.io.output.NullOutputStream;
 import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Level;

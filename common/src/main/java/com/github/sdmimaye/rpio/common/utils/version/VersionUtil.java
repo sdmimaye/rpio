@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.common.utils.version;
 
+import com.google.common.base.Charsets;
 import com.google.inject.Singleton;
 import org.apache.commons.io.FileUtils;
 
@@ -121,7 +122,7 @@ public class VersionUtil {
     }
 
     private static String getVersionFromTextFile() throws IOException, InterruptedException {
-        return FileUtils.readFileToString(getVersionTextFile());
+        return FileUtils.readFileToString(getVersionTextFile(), Charsets.UTF_8);
     }
 
     private static String extractRevisionStringFromSvnversionOutput(String svnversionOutput) {

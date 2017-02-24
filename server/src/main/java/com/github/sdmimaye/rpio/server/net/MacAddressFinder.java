@@ -1,6 +1,6 @@
 package com.github.sdmimaye.rpio.server.net;
 
-import org.apache.commons.io.Charsets;
+import com.google.common.base.Charsets;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public class MacAddressFinder {
             Runtime runtime = Runtime.getRuntime();
             Process proc = runtime.exec(COMMAND + hostnameOrAddress);
             InputStream inputstream = proc.getInputStream();
-            try(InputStreamReader inputstreamreader = new InputStreamReader(inputstream, Charsets.US_ASCII)) {
+            try(InputStreamReader inputstreamreader = new InputStreamReader(inputstream, Charsets.UTF_8)) {
                 BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
                 String line;
                 int i = 0;

@@ -28,7 +28,6 @@ public class HibernateConnectionConfigurator {
         configureUrl(configuration, config);
         configureNamingStrategy(configuration);
         configureEnvers(configuration);
-        configureDialectResolver(configuration, config);
     }
 
     public void resetToFailsafeConfiguration() throws IOException {
@@ -59,11 +58,5 @@ public class HibernateConnectionConfigurator {
     private void configureEnvers(Configuration configuration) {
         configuration.setProperty(EnversSettings.AUDIT_TABLE_PREFIX, HibernateConnectionConfigurator.TABLE_NAME_PREFIX + "_AUD_");
         configuration.setProperty(EnversSettings.AUDIT_TABLE_SUFFIX, "");
-    }
-
-    private void configureDialectResolver(Configuration configuration, DatabaseConfig config){
-        DbType type = config.getType();
-        if(type == DbType.MsSql)
-            configuration.setProperty(AvailableSettings.DIALECT_RESOLVERS, HibernateMsSqlDialectResolver.class.getName());
     }
 }

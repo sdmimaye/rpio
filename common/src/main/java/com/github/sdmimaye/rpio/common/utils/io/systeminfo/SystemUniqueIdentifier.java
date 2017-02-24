@@ -1,6 +1,7 @@
 package com.github.sdmimaye.rpio.common.utils.io.systeminfo;
 
 import com.github.sdmimaye.rpio.common.utils.io.binary.HexUtil;
+import com.google.common.base.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import oshi.SystemInfo;
@@ -68,7 +69,7 @@ public class SystemUniqueIdentifier {
 
     private static long doGenerateUniqueIdentifier() throws IOException {
         doGenerateSystemInfoFileIfRequired();
-        String idData = FileUtils.readFileToString(SYSTEM_INFO);
+        String idData = FileUtils.readFileToString(SYSTEM_INFO, Charsets.UTF_8);
 
         int idUpper = idData.hashCode();
         int idLower = StringUtils.reverse(idData).hashCode();

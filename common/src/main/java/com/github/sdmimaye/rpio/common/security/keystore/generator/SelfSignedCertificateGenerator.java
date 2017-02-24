@@ -1,7 +1,9 @@
 package com.github.sdmimaye.rpio.common.security.keystore.generator;
 
 import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.DERBitString;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v1CertificateBuilder;
@@ -16,6 +18,7 @@ import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Random;
 
 class SelfSignedCertificateGenerator {
@@ -35,7 +38,13 @@ class SelfSignedCertificateGenerator {
             BigInteger serialNumber = BigInteger.valueOf(RANDOM.nextLong());
 
             KeyPair keyPair = generateKeyPair();
-            SubjectPublicKeyInfo subjectPublicKeyInfo = new SubjectPublicKeyInfo(ASN1Sequence.getInstance(keyPair.getPublic().getEncoded()));
+            ASN1Sequence sequence = ASN1Sequence.getInstance(keyPair.getPublic().getEncoded());
+            if(sequence.size() != 2) throw new RuntimeException("Invalid ASN1-Sequence");
+
+            Enumeration e = sequence.getObjects();
+            AlgorithmIdentifier algo = AlgorithmIdentifier.getInstance(e.nextElement());
+            DERBitString data = DERBitString.getInstance(e.nextElement());
+            SubjectPublicKeyInfo subjectPublicKeyInfo = new SubjectPublicKeyInfo(algo, data.getBytes());
 
             X500Name dnName = new X500Name(getDn(parameters));
             X509v1CertificateBuilder certGen = new X509v1CertificateBuilder(dnName, serialNumber, startDate, expiryDate, dnName, subjectPublicKeyInfo);
