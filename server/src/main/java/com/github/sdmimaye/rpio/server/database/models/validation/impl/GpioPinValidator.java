@@ -26,6 +26,9 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         if(model.getNumber() == null)
             builder.with("missingNumber");
 
+        if(model.getLogic() == null)
+            builder.with("missingLogic");
+
         if(model.getMode() == null)
             builder.with("missingMode");
 
@@ -48,6 +51,7 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         pin.setNumber(model.getNumber());
         pin.setDescription(model.getDescription());
         pin.setOuputMode(model.getOuputMode());
+        pin.setLogic(model.getLogic());
         pin.setTimeout(model.getTimeout());
 
         dao.save(pin);
@@ -64,6 +68,9 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
 
         if(model.getMode() == null)
             builder.with("missingMode");
+
+        if(model.getLogic() == null)
+            builder.with("missingLogic");
 
         GpioPin byId = dao.getById(model.getId());
         if(byId == null)
@@ -87,6 +94,7 @@ public class GpioPinValidator extends ModelValidator<GpioPin, ReadableGpioPin, G
         byId.setMode(model.getMode());
         byId.setDescription(model.getDescription());
         byId.setOuputMode(model.getOuputMode());
+        byId.setLogic(model.getLogic());
         byId.setTimeout(model.getTimeout());
 
         return byId;

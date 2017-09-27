@@ -16,6 +16,7 @@ angular.module("rpio").controller('AddGpioCtrl', function ($scope, $location, pi
     $scope.model = {
         gpio: {
             mode: "INPUT",
+            logic: "NORMAL",
             ouputMode: "TOGGLE"
         }
     };

@@ -4,6 +4,7 @@ import com.github.sdmimaye.rpio.common.utils.ioc.InjectionUtil;
 import com.github.sdmimaye.rpio.server.database.dao.system.MigrationDao;
 import com.github.sdmimaye.rpio.server.database.hibernate.HibernateUtil;
 import com.github.sdmimaye.rpio.server.database.migrations.implementations.InitialisationMigration;
+import com.github.sdmimaye.rpio.server.database.migrations.implementations.PinLogicMigration;
 import com.github.sdmimaye.rpio.server.database.models.enums.MigrationType;
 import com.github.sdmimaye.rpio.server.database.models.system.MigrationHistory;
 import com.google.inject.Inject;
@@ -29,7 +30,8 @@ public class Migrator {
 
     private List<Migration> find() {
         return injectionUtil.getInstances(Arrays.asList(
-                InitialisationMigration.class
+                InitialisationMigration.class,
+                PinLogicMigration.class
         ));
     }
 

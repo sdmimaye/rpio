@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.server.http.rest.models.json.gpio;
 
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinOuputMode;
 import com.github.sdmimaye.rpio.server.database.models.gpio.GpioPin;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
     private Integer number;
     private PinMode mode;
+    private PinLogic logic;
     private String description;
     private PinOuputMode ouputMode;
     private Integer timeout;
@@ -40,6 +42,7 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
         result.setUuid(pin.getUuid());
         result.setNumber(pin.getNumber());
         result.setMode(pin.getMode());
+        result.setLogic(pin.getLogic());
         result.setDescription(pin.getDescription());
         result.setOuputMode(pin.getOuputMode());
         result.setTimeout(pin.getTimeout());
@@ -75,5 +78,14 @@ public class JsonGpioGpioPin extends JsonObject implements ReadableGpioPin {
 
     public void setTimeout(Integer timeout) {
         this.timeout = timeout;
+    }
+
+    @Override
+    public PinLogic getLogic() {
+        return logic;
+    }
+
+    public void setLogic(PinLogic logic) {
+        this.logic = logic;
     }
 }

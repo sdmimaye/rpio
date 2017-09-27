@@ -9,6 +9,14 @@
     </div>
     <div layout="row">
         <md-input-container class="md-block" flex>
+            <md-radio-group ng-model="model.gpio.logic" layout="row" class="md-primary">
+                <md-radio-button value="NORMAL">{{loc.gpio.general.logics.normal}}</md-radio-button>
+                <md-radio-button value="INVERTED"> {{loc.gpio.general.logics.inverted}}</md-radio-button>
+            </md-radio-group>
+        </md-input-container>
+    </div>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
             <label>{{loc.gpio.general.number}}</label>
             <md-select ng-model="model.gpio.number">
                 <md-option ng-repeat="pin in view.getCapablePins()" ng-value="pin.address">

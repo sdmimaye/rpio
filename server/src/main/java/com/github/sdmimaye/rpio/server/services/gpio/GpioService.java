@@ -108,7 +108,7 @@ public class GpioService implements RpioService, GpioPinStateListener {
         Iterator<Gpio> iterator = gpios.iterator();
         while (iterator.hasNext()) {
             Gpio next = iterator.next();
-            if(pins.stream().anyMatch(p -> p.getMode() == next.getPinMode() && p.getNumber() == next.getNumber()))
+            if (pins.stream().anyMatch(p -> p.getMode() == next.getPinMode() && p.getNumber() == next.getNumber()))
                 continue;
 
             IOUtils.closeQuietly(next);
@@ -118,20 +118,20 @@ public class GpioService implements RpioService, GpioPinStateListener {
 
     private void doAddMissingPins(List<GpioPin> pins) {
         for (GpioPin pin : pins) {
-            if(gpios.stream().anyMatch(g -> g.getNumber() == pin.getNumber()))
+            if (gpios.stream().anyMatch(g -> g.getNumber() == pin.getNumber()))
                 continue;
 
             switch (pin.getMode()) {
                 case INPUT:
-                    gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber(), this));
+                    gpios.add(controller.getInputPin(pin.getDescription(), pin.getNumber(), pin.getLogic(), this));
                     break;
                 case OUTPUT:
                     switch (pin.getOuputMode()) {
                         case TOGGLE:
-                            gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber(), this));
+                            gpios.add(controller.getOutputPin(pin.getDescription(), pin.getNumber(), pin.getLogic(), this));
                             break;
                         case TIMEOUT:
-                            gpios.add(controller.getTimeoutOutputPin(pin.getDescription(), pin.getNumber(), this, pin.getTimeout()));
+                            gpios.add(controller.getTimeoutOutputPin(pin.getDescription(), pin.getNumber(), pin.getLogic(), this, pin.getTimeout()));
                             break;
                     }
                     break;
@@ -147,7 +147,7 @@ public class GpioService implements RpioService, GpioPinStateListener {
             synchronized (mutex) {
                 gpios.stream()
                         .filter(g -> g.getPinMode() == PinMode.OUTPUT && g.getNumber() == pin)
-                        .map(g -> (GpioOutput)g)
+                        .map(g -> (GpioOutput) g)
                         .forEach(GpioOutput::change);
                 broadcast();
             }

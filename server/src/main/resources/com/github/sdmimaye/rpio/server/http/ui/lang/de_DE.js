@@ -62,6 +62,11 @@
                     input: "Eingang",
                     output: "Ausgang"
                 },
+                logic: "Logik",
+                logics:{
+                    normal: "Normal",
+                    inverted: "Invertiert"
+                },
                 ouputMode: "Betriebsart",
                 ouputModes:{
                     toggle: "Ein-/Ausschalten",

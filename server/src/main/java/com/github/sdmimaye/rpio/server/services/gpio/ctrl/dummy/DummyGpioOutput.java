@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.server.services.gpio.ctrl.dummy;
 
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinState;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
@@ -13,20 +14,36 @@ public class DummyGpioOutput implements GpioOutput{
 
     private final String description;
     private final int address;
+    private final PinLogic logic;
     private final GpioPinStateListener listener;
-    private GpioPinState state = GpioPinState.LOW;
+    private GpioPinState state;
 
-    public DummyGpioOutput(String description, int address, GpioPinStateListener listener) {
+    public DummyGpioOutput(String description, int address, PinLogic logic, GpioPinStateListener listener) {
         this.description = description;
         this.address = address;
+        this.logic = logic;
         this.listener = listener;
+
+        this.state = logic == PinLogic.NORMAL ? GpioPinState.LOW : GpioPinState.HIGH;
     }
 
     @Override
     public void setState(GpioPinState state) {
-        this.state = state;
-        logger.info("Dummy-Output Pin: {} set to: {}", address, state);
-
+        switch (logic) {
+            case NORMAL:
+                this.state = state;
+                break;
+            case INVERTED:
+                switch (state) {
+                    case HIGH:
+                        this.state = GpioPinState.LOW;
+                        break;
+                    case LOW:
+                        this.state = GpioPinState.HIGH;
+                        break;
+                }
+        }
+        logger.info("Dummy-Output Pin: {} set to: {}", address, this.state);
         listener.onPinStateChanged(description, address, state);
     }
 

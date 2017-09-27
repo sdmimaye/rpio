@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.server.services.gpio.ctrl.rpi;
 
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.ctrl.HardwareController;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
@@ -23,17 +24,17 @@ public class RpiHardwareController implements HardwareController {
     }
 
     @Override
-    public GpioInput getInputPin(String description, int address, GpioPinStateListener listener) {
-        return new RpiGpioInput(gpio, address, description, listener);
+    public GpioInput getInputPin(String description, int address, PinLogic logic, GpioPinStateListener listener) {
+        return new RpiGpioInput(gpio, address, logic, description, listener);
     }
 
     @Override
-    public GpioOutput getOutputPin(String description, int address, GpioPinStateListener listener) {
-        return new RpiGpioOuput(gpio, address, description, listener);
+    public GpioOutput getOutputPin(String description, int address, PinLogic logic, GpioPinStateListener listener) {
+        return new RpiGpioOuput(gpio, address, logic, description, listener);
     }
 
     @Override
-    public GpioTimeoutOutput getTimeoutOutputPin(String description, int address, GpioPinStateListener listener, int timeout) {
-        return new RpiGpioTimeoutOuput(gpio, address, description, listener, timeout);
+    public GpioTimeoutOutput getTimeoutOutputPin(String description, int address, PinLogic logic,GpioPinStateListener listener, int timeout) {
+        return new RpiGpioTimeoutOuput(gpio, address, logic, description, listener, timeout);
     }
 }

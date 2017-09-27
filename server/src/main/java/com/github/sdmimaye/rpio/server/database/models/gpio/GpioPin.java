@@ -1,6 +1,7 @@
 package com.github.sdmimaye.rpio.server.database.models.gpio;
 
 import com.github.sdmimaye.rpio.server.database.models.base.PersistedEntityBase;
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinMode;
 import com.github.sdmimaye.rpio.server.database.models.enums.PinOuputMode;
 import org.hibernate.envers.Audited;
@@ -16,6 +17,9 @@ public class GpioPin extends PersistedEntityBase {
 
     @Enumerated(EnumType.STRING)
     private PinMode mode;
+
+    @Enumerated(EnumType.STRING)
+    private PinLogic logic;
 
     @Enumerated(EnumType.STRING)
     private PinOuputMode ouputMode;
@@ -62,5 +66,13 @@ public class GpioPin extends PersistedEntityBase {
 
     public void setTimeout(Integer timeout) {
         this.timeout = timeout;
+    }
+
+    public PinLogic getLogic() {
+        return logic;
+    }
+
+    public void setLogic(PinLogic logic) {
+        this.logic = logic;
     }
 }

@@ -1,5 +1,6 @@
 package com.github.sdmimaye.rpio.server.services.gpio.ctrl.rpi;
 
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinState;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioOutput;
@@ -7,7 +8,6 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 import java.io.IOException;
@@ -15,22 +15,19 @@ import java.io.IOException;
 public class RpiGpioOuput implements GpioOutput {
     private final GpioPinDigitalOutput pin;
     private final GpioController gpio;
+    private final PinLogic logic;
 
-    public RpiGpioOuput(GpioController gpio, int number, String description, GpioPinStateListener listener) {
+    public RpiGpioOuput(GpioController gpio, int number, PinLogic logic, String description, GpioPinStateListener listener) {
         this.gpio = gpio;
-        this.pin = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(number), description);
-        this.pin.addListener(new GpioPinListenerDigital() {
-            @Override
-            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                listener.onPinStateChanged(getDescription(), getNumber(), GpioPinState.byValue(event.getState()));
-            }
-        });
+        this.logic = logic;
+        this.pin = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(number), description, logic == PinLogic.NORMAL ? PinState.LOW : PinState.HIGH);
+        this.pin.addListener((GpioPinListenerDigital) event -> listener.onPinStateChanged(getDescription(), getNumber(), GpioPinState.byValue(event.getState(), logic)));
     }
 
     @Override
     public void close() throws IOException {
         pin.removeAllListeners();
-        pin.setState(PinState.LOW);
+        pin.setState(logic == PinLogic.NORMAL ? PinState.LOW : PinState.HIGH);
         gpio.unprovisionPin(pin);
     }
 
@@ -46,12 +43,12 @@ public class RpiGpioOuput implements GpioOutput {
 
     @Override
     public GpioPinState getState() {
-        return GpioPinState.byValue(pin.getState());
+        return GpioPinState.byValue(pin.getState(), logic);
     }
 
     @Override
     public void setState(GpioPinState state) {
-        pin.setState(state.toValue());
+        pin.setState(state.toValue(logic));
     }
 }
 

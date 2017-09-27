@@ -1,6 +1,7 @@
 package com.github.sdmimaye.rpio.server.services.gpio.ctrl.dummy;
 
 import com.github.sdmimaye.rpio.common.utils.threads.ThreadUtils;
+import com.github.sdmimaye.rpio.server.database.models.enums.PinLogic;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinState;
 import com.github.sdmimaye.rpio.server.services.gpio.classes.GpioPinStateListener;
 import com.github.sdmimaye.rpio.server.services.gpio.pins.GpioInput;
@@ -14,14 +15,16 @@ public class DummyGpioInput implements GpioInput {
 
     private final String description;
     private final int address;
+    private final PinLogic logic;
     private final GpioPinStateListener listener;
     private final Thread worker;
 
     private GpioPinState state = GpioPinState.LOW;
 
-    public DummyGpioInput(String description, int address, GpioPinStateListener listener) {
+    public DummyGpioInput(String description, int address, PinLogic logic, GpioPinStateListener listener) {
         this.description = description;
         this.address = address;
+        this.logic = logic;
         this.listener = listener;
 
         this.worker = new Thread(() ->{
